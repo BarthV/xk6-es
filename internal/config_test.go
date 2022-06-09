@@ -1,4 +1,4 @@
-package template
+package es
 
 import (
 	"encoding/json"

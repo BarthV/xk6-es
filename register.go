@@ -1,12 +1,12 @@
-package template
+package es
 
 import (
-	"github.com/grafana/xk6-output-template/pkg/template"
+	xk6es "github.com/barthv/xk6-es/internal"
 	"go.k6.io/k6/output"
 )
 
 func init() {
-	output.RegisterExtension("xk6-template", func(p output.Params) (output.Output, error) {
-		return template.New(p)
+	output.RegisterExtension("xk6-es", func(p output.Params) (output.Output, error) {
+		return xk6es.New(p)
 	})
 }
