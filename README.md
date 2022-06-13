@@ -1,5 +1,6 @@
 # xk6-es
 Yet another (working) elasticsearch output for k6.
+It relies on https://github.com/olivere/elastic/v7 library & uses bulking for sample ingestion.
 
 ## Build
 
@@ -32,6 +33,7 @@ This will result in a `k6` binary in the current directory.
 | `K6_ES_PASSWORD`       | ""                      | Elasticsearch password |
 | `K6_ES_INDEX`          | ""                      | Index used to store samples |
 | `K6_ES_ENABLE_SNIFFER` | "false"                 | Enable Elastic endpoints discovery mecanism |
+| `K6_ES_MAX_BULKSIZE`   | "2048"                  | Maximum bulk size before forcing flush |
 
 ## Document template
 

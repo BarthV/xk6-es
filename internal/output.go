@@ -56,7 +56,7 @@ func New(p output.Params) (*Output, error) {
 }
 
 func (o *Output) Description() string {
-	return "elasticsearch output: " + o.config.Address
+	return "elasticsearch (v7) output: " + o.config.Address
 }
 
 func (o *Output) Stop() error {
@@ -99,27 +99,27 @@ func (o *Output) flushMetrics() {
 				Value: sample.Value,
 			}
 
-			// This is too slow ...
-			// o.esClient.Index().
-			// 	Index(o.config.Index).
-			// 	BodyJson(esSample).
-			// 	Do(ctx)
+			if bulkRequest.NumberOfActions() >= o.config.MaxBulkSize {
+				break
+			}
 
 			// bulk is better !
 			bulkRequest = bulkRequest.Add(
 				elastic.NewBulkIndexRequest().OpType("create").Index(o.config.Index).Doc(esSample),
 			)
-
-			// too spammy
-			// o.logger.WithField("name", sample.Metric.Name).WithField("type", sample.Metric.Type.String()).WithField("value", sample.Value).Debug("Metric added in bulk")
 		}
 
+		if bulkRequest.NumberOfActions() >= o.config.MaxBulkSize {
+			o.logger.Debug("Bulk is full, forcing flush")
+			break
+		}
 	}
+
 	if count > 0 {
 		o.logger.WithField("t", time.Since(start)).WithField("count", count).Debug("Flushing metrics to elasticsearch")
 		_, err := bulkRequest.Do(context.TODO())
 		if err != nil {
-			o.logger.WithError(err).Debug("Bulk request failed")
+			o.logger.WithError(err).Error("Bulk request failed")
 		}
 	}
 }

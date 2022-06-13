@@ -2,6 +2,7 @@ package es
 
 import (
 	"fmt"
+	"strconv"
 	"time"
 
 	"go.k6.io/k6/output"
@@ -15,6 +16,7 @@ type Config struct {
 	Password       string
 	Index          string
 	SnifferEnabled bool
+	MaxBulkSize    int
 }
 
 // NewConfig creates a new Config instance from the provided output.Params
@@ -26,6 +28,7 @@ func NewConfig(p output.Params) (Config, error) {
 		Index:          "",
 		SnifferEnabled: false,
 		PushInterval:   1 * time.Second,
+		MaxBulkSize:    2048,
 	}
 
 	for k, v := range p.Environment {
@@ -36,6 +39,7 @@ func NewConfig(p output.Params) (Config, error) {
 			if err != nil {
 				return cfg, fmt.Errorf("error parsing environment variable 'K6_ES_PUSH_INTERVAL': %w", err)
 			}
+
 		case "K6_ES_ADDRESS":
 			cfg.Address = v
 
@@ -50,6 +54,13 @@ func NewConfig(p output.Params) (Config, error) {
 
 		case "K6_ES_ENABLE_SNIFFER":
 			cfg.SnifferEnabled = true
+
+		case "K6_ES_MAX_BULKSIZE":
+			var err error
+			cfg.MaxBulkSize, err = strconv.Atoi(v)
+			if err != nil {
+				return cfg, fmt.Errorf("error parsing environment variable 'K6_ES_MAX_BULKSIZE': %w", err)
+			}
 		}
 	}
 
