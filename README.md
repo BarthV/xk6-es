@@ -46,21 +46,21 @@ This will result in a `k6` binary in the current directory.
 
 ```
 {
-    "name": "http_req_waiting",
-    "type": "trend",
-    "time": 1654968030083,
-    "Tags": {
-      "expected_response": "true",
-      "function": "foo",
-      "group": "::bar",
-      "method": "POST",
-      "name": "https://foo.bar/foo",
-      "proto": "HTTP/2.0",
-      "scenario": "default",
-      "status": "200",
-      "tls_version": "tls1.3",
-      "url": "https://foo.bar/foo"
-    },
-    "Value": 970.557
-  }
+  "name": "http_req_waiting",
+  "type": "trend",
+  "time": 1654968030083,
+  "Tags": {
+    "expected_response": "true",
+    "function": "foo",
+    "group": "::bar",
+    "method": "POST",
+    "name": "https://foo.bar/foo",
+    "proto": "HTTP/2.0",
+    "scenario": "default",
+    "status": "200",
+    "tls_version": "tls1.3",
+    "url": "https://foo.bar/foo"
+  },
+  "Value": 970.557
+}
 ```

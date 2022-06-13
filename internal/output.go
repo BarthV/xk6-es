@@ -103,7 +103,6 @@ func (o *Output) flushMetrics() {
 				break
 			}
 
-			// bulk is better !
 			bulkRequest = bulkRequest.Add(
 				elastic.NewBulkIndexRequest().OpType("create").Index(o.config.Index).Doc(esSample),
 			)
