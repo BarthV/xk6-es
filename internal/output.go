@@ -94,7 +94,7 @@ func (o *Output) flushMetrics() {
 			esSample := XK6ElasticSample{
 				Name:  sample.Metric.Name,
 				Type:  sample.Metric.Type.String(),
-				Tags:  sample.Tags.CloneTags(),
+				Tags:  sample.Tags.Map(),
 				Time:  sample.Time.UnixMilli(),
 				Value: sample.Value,
 			}
