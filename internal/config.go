@@ -53,7 +53,11 @@ func NewConfig(p output.Params) (Config, error) {
 			cfg.Index = v
 
 		case "K6_ES_ENABLE_SNIFFER":
-			cfg.SnifferEnabled = true
+			var err error
+			cfg.SnifferEnabled, err = strconv.ParseBool(v)
+			if err != nil {
+				return cfg, fmt.Errorf("error parsing environment variable 'K6_ES_ENABLE_SNIFFER': %w", err)
+			}
 
 		case "K6_ES_MAX_BULKSIZE":
 			var err error
